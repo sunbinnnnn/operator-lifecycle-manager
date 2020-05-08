@@ -165,7 +165,7 @@ func (p *RegistryProvider) syncCatalogSource(obj interface{}) (syncError error) 
 		Namespace: source.GetNamespace(),
 		Name:      source.GetName(),
 	}
-	if sourceMeta := p.sources.GetMeta(key); sourceMeta != nil && sourceMeta.Address == address {
+	if sourceMeta := p.sources.GetMeta(key); sourceMeta != nil && sourceMeta.Address == address && sourceMeta.ClientInsecureTls == clientInsecureTls{
 		// If the address hasn't changed, don't bother creating a new source
 		logger.Debug("catalog address unchanged, skipping source creation")
 		return

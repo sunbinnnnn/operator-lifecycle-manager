@@ -21,6 +21,7 @@ type SourceMeta struct {
 	Address         string
 	LastConnect     metav1.Time
 	ConnectionState connectivity.State
+	ClientInsecureTls bool
 }
 
 type SourceState struct {
@@ -120,6 +121,7 @@ func (s *SourceStore) Add(key resolver.CatalogKey, address string, clientInsecur
 	source := SourceConn{
 		SourceMeta: SourceMeta{
 			Address:         address,
+			ClientInsecureTls:	clientInsecureTls,
 			LastConnect:     metav1.Now(),
 			ConnectionState: connectivity.Idle,
 		},
