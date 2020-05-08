@@ -49,6 +49,9 @@ type CatalogSourceSpec struct {
 	// +Optional
 	Address string `json:"address,omitempty"`
 
+	// Only used when address field is set.
+	ClientInsecureTls bool `json:"client_insecure_tls, omitempty"`
+
 	// Image is an operator-registry container image to instantiate a registry-server with.
 	// Only used when SourceType = SourceTypeGrpc.
 	// If present, the address field is ignored.

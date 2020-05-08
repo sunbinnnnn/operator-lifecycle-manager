@@ -2,6 +2,8 @@ package grpc
 
 import (
 	"context"
+	"crypto/tls"
+	"google.golang.org/grpc/credentials"
 	"sync"
 	"time"
 
@@ -100,10 +102,16 @@ func (s *SourceStore) Get(key resolver.CatalogKey) *SourceConn {
 	return &source
 }
 
-func (s *SourceStore) Add(key resolver.CatalogKey, address string) (*SourceConn, error) {
+func (s *SourceStore) Add(key resolver.CatalogKey, address string, clientInsecureTls bool) (*SourceConn, error) {
 	_ = s.Remove(key)
 
 	conn, err := grpc.Dial(address, grpc.WithInsecure())
+	if clientInsecureTls {
+		var cfg tls.Config
+		cfg.InsecureSkipVerify = true
+		creds := credentials.NewTLS(&cfg)
+		conn, err = grpc.Dial(address, grpc.WithTransportCredentials(creds))
+	}
 	if err != nil {
 		return nil, err
 	}

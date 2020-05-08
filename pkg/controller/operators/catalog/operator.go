@@ -587,9 +587,9 @@ func (o *Operator) syncConnection(logger *logrus.Entry, in *v1alpha1.CatalogSour
 	// update operator's view of sources
 	now := o.now()
 	address := in.Address()
-
+	clientInsecureTls := in.Spec.ClientInsecureTls
 	connectFunc := func() (source *grpc.SourceMeta, connErr error) {
-		newSource, err := o.sources.Add(sourceKey, address)
+		newSource, err := o.sources.Add(sourceKey, address, clientInsecureTls)
 		if err != nil {
 			connErr = fmt.Errorf("couldn't connect to registry - %v", err)
 			return

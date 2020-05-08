@@ -158,6 +158,7 @@ func (p *RegistryProvider) syncCatalogSource(obj interface{}) (syncError error) 
 	}
 
 	address := source.Address()
+	clientInsecureTls := source.Spec.ClientInsecureTls
 	logger = logger.WithField("address", address)
 
 	key := resolver.CatalogKey{
@@ -171,7 +172,7 @@ func (p *RegistryProvider) syncCatalogSource(obj interface{}) (syncError error) 
 	}
 
 	logger.Info("connecting to source")
-	if _, syncError = p.sources.Add(key, address); syncError != nil {
+	if _, syncError = p.sources.Add(key, address, clientInsecureTls); syncError != nil {
 		logger.Warn("failed to create a new source")
 	}
 
